@@ -1,0 +1,23 @@
+AddDefaultCharset utf8
+# URL for error document, if in Root
+ErrorDocument 404 "Not Found
+ErrorDocument 403 "Nothing here
+
+# Protect hidden files from being viewed
+<FilesMatch "\.(?:inc|dat|nod|tpl)$">
+        Order Deny,Allow
+        Deny From All
+</FilesMatch>
+Options -Indexes
+
+RewriteEngine On
+# Installation directory
+RewriteBase /dev/oldcms/NodCMS
+
+RewriteRule ^(admin/) - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ $1 [R=permanent,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?f=$1 [NC,QSA,L]
